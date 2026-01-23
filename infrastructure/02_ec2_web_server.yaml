@@ -1,0 +1,193 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Production-ready AWS CloudFormation template for a Windows Server 2025 web environment.
+  The stack provisions a custom Virtual Private Cloud (VPC), public subnet architecture, 
+  and an EC2 instance with automated IIS Web Server bootstrapping via User Data.
+  Author: Marcin Mitura.
+
+Parameters:
+  KeyName:
+    Description: Nazwa klucza (np. vockey).
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: vockey
+
+  AdminPassword:
+    Description: Haslo dla konta Administrator.
+    Type: String
+    NoEcho: true
+    MinLength: 8
+    Default: P@ssw0rd!
+
+  WindowsVersion:
+    Type: String
+    Default: Windows_Server-2025-English-Full-Base
+    AllowedValues:
+      - Windows_Server-2025-English-Full-Base
+      - Windows_Server-2022-English-Full-Base
+    Description: Wersja systemu Windows Server.
+
+Resources:
+  # --- 1. SIEC ---
+  VPCMarcinMitura:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: Lab-VPC
+        - Key: vpc
+          Value: attached
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: Lab-IGW
+        - Key: vpc
+          Value: attached
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPCMarcinMitura
+      InternetGatewayId: !Ref InternetGateway
+
+  # --- 2. PODSIEC ---
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPCMarcinMitura
+      CidrBlock: 192.168.1.0/24
+      AvailabilityZone: !Select
+        - 0
+        - !GetAZs ''
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: Lab-Public-Subnet
+        - Key: vpc
+          Value: attached
+
+  # --- 3. ROUTING ---
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPCMarcinMitura
+      Tags:
+        - Key: Name
+          Value: Lab-Public-RT
+        - Key: vpc
+          Value: attached
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  # --- 4. BEZPIECZENSTWO ---
+  RdpSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Zezwalaj na RDP (3389) i HTTP (80)
+      VpcId: !Ref VPCMarcinMitura
+      SecurityGroupIngress:
+        # Dost?p RDP
+        - IpProtocol: tcp
+          FromPort: 3389
+          ToPort: 3389
+          CidrIp: 0.0.0.0/0
+        # Dost?p HTTP (DODANE - wymagane dla strony WWW)
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: Lab-SG
+        - Key: vpc
+          Value: attached
+
+  # --- 5. INSTANCJA ---
+  WindowsInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t3.small
+      ImageId: !Sub '{{resolve:ssm:/aws/service/ami-windows-latest/${WindowsVersion}}}'
+      KeyName: !Ref KeyName
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: '0'
+          GroupSet:
+            - !Ref RdpSecurityGroup
+          SubnetId: !Ref PublicSubnet
+
+      # --- POPRAWIONA SEKCJA USERDATA ---
+      UserData:
+        Fn::Base64:
+          Fn::Sub: |
+            <powershell>
+            # 1. Ustawienie hasla (uzywamy parametru z gory pliku)
+            Set-LocalUser -Name "Administrator" -Password (ConvertTo-SecureString "${AdminPassword}" -AsPlainText -Force)
+            
+            # 2. Otwarcie portow w Firewallu Windowsa (wewnatrz systemu)
+            New-NetFirewallRule -DisplayName "HTTP" -Direction Inbound -LocalPort 80 -Protocol TCP -Action Allow
+            New-NetFirewallRule -DisplayName "HTTPS" -Direction Inbound -LocalPort 443 -Protocol TCP -Action Allow
+
+            # 3. Instalacja IIS i utworzenie strony
+            Install-WindowsFeature -Name "Web-Server" -IncludeManagementTools
+            Set-Content -Path "C:\inetpub\wwwroot\index.html" -Value '<!DOCTYPE html><html><head><title>Powitanie</title></head><body><h1>To Marcin Mitura</h1></body></html>'
+            Start-Service W3SVC
+            </powershell>
+
+      Tags:
+        - Key: Name
+          Value: Lab-Windows-Server
+        - Key: vpc
+          Value: attached
+
+# --- 6. OUTPUTS ---
+Outputs:
+  VPCId:
+    Description: ID utworzonej VPC
+    Value: !Ref VPCMarcinMitura
+    Export:
+      Name: !Sub ${AWS::StackName}-VPCId
+
+  InternetGatewayId:
+    Description: ID Bramy Internetowej
+    Value: !Ref InternetGateway
+
+  PublicSubnetId:
+    Description: ID Podsieci Publicznej
+    Value: !Ref PublicSubnet
+    Export:
+      Name: !Sub ${AWS::StackName}-PublicSubnetId
+
+  InstanceId:
+    Description: ID Instancji EC2
+    Value: !Ref WindowsInstance
+
+  PublicIP:
+    Description: Publiczny adres IP serwera
+    Value: !GetAtt WindowsInstance.PublicIp
+
+  WebsiteURL:
+    Description: Adres strony WWW
+    Value: !Sub "http://${WindowsInstance.PublicIp}"
+
+  ConnectCommand:
+    Description: Komenda do polaczenia
+    Value: !Sub "mstsc /v:${WindowsInstance.PublicIp}"

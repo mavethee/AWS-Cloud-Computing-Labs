@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  Pierwszy AWS CloudFormation Stack – tworzenie pustej VPC (Virtual Private Cloud) w ramach laboratorium.
+  Autor: Marcin Mitura.
+Resources:
+  VPCMarcinMitura:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+
+Outputs:
+  VPCId:
+    Description: ID utworzonej VPC
+  Value: Ref VPCMarcinMitura
