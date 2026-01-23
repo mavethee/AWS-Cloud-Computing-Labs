@@ -1,0 +1,36 @@
+# --- Bezpieczeństwo ---
+*.pem
+*.ppk
+*.env
+admin_passwd.txt
+instanceID.txt
+public_ip.txt
+*_pass.txt
+credentials.csv
+password.txt
+
+# --- Pliki połączeniowe AWS/Windows ---
+*.rdp
+
+# --- Śmieci systemowe i archiwa ---
+.DS_Store
+Thumbs.db
+*.rar
+*.tar.gz
+*.log
+*.tmp
+*.bak
+
+# --- Foldery tymczasowe i warsztatowe ---
+CFN/
+Instrukcje/
+SERWER-1/
+VM-1/
+Server-1/
+AWS Config YAMLs/
+Zrzuty/
+
+# --- Pliki edytorów ---
+.vscode/
+.idea/
+src/backups/AWS-WP-TechFix.wpress

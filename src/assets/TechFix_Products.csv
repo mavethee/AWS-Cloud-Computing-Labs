@@ -1,0 +1,55 @@
+Name,Type,Regular price,Virtual,Short description
+Diagnostyka sprzętu,simple,0,1,Darmowe sprawdzenie usterki. Zamów usługę a nasz technik do Ciebie oddzwoni
+Instalacja systemu operacyjnego,simple,120,1,Instalacja systemu wraz z pierwszą konfiguracją.
+Czyszczenie układu chłodzenia,simple,150,1,Wymiana pasty termoprzewodzącej i czyszczenie wnętrza.
+Odzyskiwanie danych z uszkodzonego nośnika,simple,300,1,Zaawansowane przywracanie plików z uszkodzonych dysków HDD/SSD.
+Aktualizacja BIOS / UEFI,simple,80,1,Bezpieczne wgrywanie najnowszego oprogramowania układowego płyty głównej.
+Usuwanie wirusów i złośliwego oprogramowania,simple,100,1,Kompleksowe czyszczenie systemu i instalacja zabezpieczeń.
+Wymiana matrycy w laptopie,simple,150,1,Usługa wymiany uszkodzonego ekranu (koszt samej matrycy wyceniany indywidualnie).
+Sprężone powietrze 400ml,simple,15,0,Skuteczne czyszczenie trudno dostępnych miejsc w elektronice.
+Bateria CMOS CR2032 (Zestaw 5 szt.),simple,12,0,Podtrzymanie pamięci BIOS na płycie głównej.
+Pędzelek antystatyczny ESD,simple,18,0,Bezpieczne czyszczenie płyt głównych i podzespołów z kurzu.
+Tester zasilaczy komputerowych ATX,simple,65,0,Narzędzie diagnostyczne z wyświetlaczem LCD do zasilaczy PC
+Dysk SSD Samsung 980 PRO 1TB M.2,simple,420,0,Ultraszybki dysk NVMe przyspieszający działanie każdego komputera.
+Zasilacz Green Cell PRO 65W USB-C,simple,95,0,Uniwersalna ładowarka do laptopa
+Zestaw śrubokrętów iFixit Pro Tech Toolkit,simple,349,0,Profesjonalne narzędzia do precyzyjnego serwisu elektroniki
+Zestaw śrubek montażowych (500 szt.),simple,45,0,Śrubki M2 M2.5 M3 niezbędne przy skręcaniu obudów laptopów
+Pasta termoprzewodząca Arctic MX-6 (4g),simple,32,0,Wysokowydajna pasta obniżająca temperaturę procesora.
+Termopad Gelid GP-Extreme 80x40x1.5mm,simple,45,0,Wysokie przewodnictwo cieplne dla pamięci VRAM i sekcji zasilania.
+Wzmacniana torba serwisowa na laptopa 15.6 cali,simple,120,0,Bezpieczny transport i przechowywanie powierzonego sprzętu klientów.
+Wymiana dysku twardego HDD/SSD,simple,180,1,Wymiana lub upgrade nośnika danych z transferem systemu.
+Wymiana baterii w laptopie,simple,160,1,Wymiana zużytej baterii wraz z testem działania.
+Czyszczenie portu ładowania USB-C,simple,90,1,Usunięcie zanieczyszczeń z portu ładowania.
+Naprawa ekranu LCD (bez wymiany),simple,200,1,Diagnostyka i naprawa problemu z wyświetlaczem.
+Wymiana wentylatora procesora,simple,120,1,Instalacja nowego wentyladora z przywróceniem chłodzenia.
+Instalacja oprogramowania biurowego,simple,110,1,Zainstalowanie Office Open Office lub innych aplikacji
+Konfiguracja routera WiFi,simple,140,1,Konfiguracja sieci hasło i optymalizacja sygnału
+Przywrócenie systemu do stanu fabrycznego,simple,85,1,Reset systemu operacyjnego bez zachowania danych.
+Konsultacja techniczna online,simple,50,1,30 minut porady technicznej przez video call.
+Silikonowa mata antystatyczna 60x60cm,simple,55,0,Mata ESD chroniąca przed wyładowaniami elektrycznymi.
+Wielofunkcyjny rozszerzacz USB Hub 7 portów,simple,38,0,Rozszerzacz z zasilaniem i wskaźnikami LED.
+Kabel HDMI 2.1 High Speed 2 metry,simple,22,0,Obsługa 4K@60Hz i HDR.
+Kabel USB-C to USB-C 3.1 Gen 2 1.5m,simple,28,0,Transfer danych do 10Gbps szybkie ładowanie
+Ochrona na kabel zasilający 1.8m (5 sztuk),simple,12,0,Elastyczne osłonki przedłużające żywotność kabli
+Uchwyt na laptop aluminiowy (regulowany),simple,45,0,Ergonomiczne stanowisko dla 13-17 cali
+Klawiatura USB bezprzewodowa Logitech,simple,85,0,Bezprzewodowa klawiatura z baterią
+Mysz bezprzewodowa optyczna 2.4GHz,simple,35,0,Godz. pracy ergonomiczny design
+Monitor LED 21.5 Full HD USB,simple,280,0,Monitor do diagnostyki i pracy serwisanta
+Zasilacz modularny Corsair 750W Gold,simple,450,0,Wydajny zasilacz dla zaawansowanych konfiguracji
+Pamięć RAM Kingston Fury DDR4 16GB 3600MHz,simple,280,0,Szybka pamięć dla wydajnych systemów
+Radiator chłodzący AIO 240mm RGB,simple,320,0,Chłodzenie cieczą dla procesorów high-end
+Obudowa komputerowa Phanteks Eclipse P400,simple,220,0,Pusta obudowa z widokiem na komponenty
+Płyta główna ASUS ROG B550-F,simple,580,0,Wysokowydajna płyta dla procesorów Ryzen
+Procesor Intel Core i5-13600K,simple,1250,0,Potężny procesor do wydajnych konfiguracji
+Zestaw kabli sieciowych RJ45 Cat 6 (10 szt),simple,28,0,Ethernetowe kable 1 metr z konektorami
+Gniazdo zasilające 3-gniazdowe z USB,simple,42,0,Rozdzielacz prądu ze złączami USB
+Żel czyszczący do ekranów LCD 200ml,simple,18,0,Bezpieczny do ekranów LED LCD i OLED
+Papier czyszczący mikrofiber (100 szt),simple,20,0,Delikatne do czyszczenia soczewek i ekranów
+Pasta termalna Noctua NT-H2 4.5g,simple,38,0,Premium pasta dla maksymalnej wydajności
+Podkładka izolacyjna PCI (zestaw 20 szt),simple,16,0,Izoluje komponenty od płyty głównej
+Lutownica cyfrowa 80W Weller,simple,180,0,Lutownica do precyzyjnego serwisu elektroniki
+Przepompowywacz termiczny do pasty,simple,25,0,Narzędzie do równomiernego rozmieszczenia pasty.
+Zestaw kabli zasilających PCIe (4szt),simple,32,0,Kable zasilające dla kart graficznych
+Wentylator PC 120mm RGB (pakiet 3 sztuk),simple,78,0,Cichy i efektowny układ chłodzenia
+Czyszczarka ultradźwiękowa 750ml,simple,145,0,Czyszczenie płyt głównych i podzespołów
+Suszarka do włosów HEPA dla elektroniki,simple,120,0,Bezpieczne osuszanie po naprawie
