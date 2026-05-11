@@ -8,20 +8,22 @@ Projekt ten jest objęty licencją [MIT](./LICENSE.md).
 
 ```sh
 ~/AWS-Cloud-Computing-Labs
-├── infrastructure/
-│   ├── AWS-WP-WooCommerce.yaml
-├── src/
-│   ├── assets/
-│   │   ├── TechFix_Products.csv
-│   │   └── favicon-techfix.png
-│   └── backups/
-├── scripts/
-├── images/
-│   ├── LoginWindow.png
-│   ├── MainShopPage.png
-│   ├── OrderConfirmation.png
-│   └── ProductInCart.png
-└── LICENSE.md
+├── infrastructure/                 # Katalog definicji zasobów chmurowych
+│   └── AWS-WP-WooCommerce.yaml     # Główny szablon CloudFormation (ALB, ASG, RDS, EFS)
+├── src/                            # Folder źródłowy danych aplikacji i kopii zapasowych
+│   ├── assets/                     # Zasoby statyczne wykorzystywane przez stronę
+│   │   ├── favicon-techfix.png     # Ikona serwisu wyświetlana w przeglądarce
+│   │   ├── TechFix_Products.csv    # Baza danych produktów do importu w WooCommerce
+│   │   └── techfix-*.png           # Zdjęcia produktów i elementy graficzne interfejsu
+│   └── backups/                    # Katalog przechowujący obrazy witryny
+│       └── AWS-WP-TechFix.wpress   # Kopia zapasowa WordPress do odtworzenia serwisu
+├── images/                         # Dokumentacja wizualna projektu (zrzuty ekranu)
+│   ├── LoginWindow.png             # Prezentacja widoku logowania administratora
+│   ├── MainShopPage.png            # Prezentacja głównej strony sklepu TechFix
+│   ├── OrderConfirmation.png       # Prezentacja widoku podsumowania zamówienia
+│   └── ProductInCart.png           # Prezentacja widoku produktów w koszyku
+├── LICENSE.md                      # Plik określający zasady licencji MIT
+└── README.md                       # Dokumentacja, instrukcja wdrożenia i dane logowania
 ```
 
 ## Kluczowe cechy

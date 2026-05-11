@@ -34,3 +34,4 @@ Zrzuty/
 .vscode/
 .idea/
 src/backups/AWS-WP-TechFix.wpress
+contrib/html.tpl
