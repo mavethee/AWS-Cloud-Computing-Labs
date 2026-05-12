@@ -1,6 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: |
   Wysoko dostepne srodowisko webowe AWS - E-commerce (WordPress + WooCommerce)
+  (Wersja zmodyfikowana dla kont osobistych, podatna - do testów AWS Inspector)
   Author: Marcin Mitura.
 
 Parameters:
@@ -23,6 +24,31 @@ Parameters:
     Description: Haslo do bazy danych (min. 8 znakow)
 
 Resources:
+  # ==========================================
+  # WYMAGANE MINIMUM: Dynamiczny profil dla prywatnego konta i Agenta SSM
+  # ==========================================
+  InspectorSSMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+
+  PrivateInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref InspectorSSMRole
+
+  # ==========================================
+  # KROK 1: VPC & SIECI
+  # ==========================================
   VPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -41,7 +67,6 @@ Resources:
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
 
-  # Podsieci Publiczne (dla ALB i NAT)
   PublicSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -57,7 +82,6 @@ Resources:
       AvailabilityZone: !Select [1, !GetAZs '']
       MapPublicIpOnLaunch: true
 
-  # Podsieci Prywatne APP (dla EC2)
   PrivateAppSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -71,7 +95,6 @@ Resources:
       CidrBlock: 10.0.11.0/24
       AvailabilityZone: !Select [1, !GetAZs '']
 
-  # Podsieci Prywatne DB (dla RDS)
   PrivateDBSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -85,7 +108,6 @@ Resources:
       CidrBlock: 10.0.22.0/24
       AvailabilityZone: !Select [1, !GetAZs '']
 
-  # NAT Gateways i EIPs
   NatEipA:
     Type: AWS::EC2::EIP
     Properties: { Domain: vpc }
@@ -103,7 +125,6 @@ Resources:
       AllocationId: !GetAtt NatEipB.AllocationId
       SubnetId: !Ref PublicSubnetB
 
-  # Tabele routingu
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties: { VpcId: !Ref VPC }
@@ -251,11 +272,13 @@ Resources:
     Properties:
       LaunchTemplateData:
         ImageId: resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
-        InstanceType: t3.medium
+        InstanceType: t3.small
+        # Podpięcie nowego, lokalnego profilu zamiast nieistniejącego akademickiego
         IamInstanceProfile:
-          Name: LabInstanceProfile
+          Arn: !GetAtt PrivateInstanceProfile.Arn
         SecurityGroupIds:
           - !GetAtt EC2SecurityGroup.GroupId
+        # Pozostawione Twoje oryginalne UserData bez żadnych poprawek bezpieczeństwa/limitów PHP
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash

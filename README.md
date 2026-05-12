@@ -8,6 +8,8 @@ Projekt strony serwisu komputerowego **TechFix** wdrożony w architekturze chmur
 
 ```sh
 ~/AWS-Cloud-Computing-Labs
+├── contrib/                        # Szablony pomocnicze
+│   └── html.tpl                    # Szablon generatora raportów HTML
 ├── images/                         # Zrzuty ekranu prezentujące działający sklep TechFix
 │   ├── LoginWindow.png             # Widok panelu logowania administratora WordPress
 │   ├── MainShopPage.png            # Strona główna serwisu WooCommerce
@@ -15,21 +17,25 @@ Projekt strony serwisu komputerowego **TechFix** wdrożony w architekturze chmur
 │   └── ProductInCart.png           # Widok produktów w koszyku użytkownika
 ├── infrastructure/                 # Konfiguracja Infrastruktury jako Kod (IaC)
 │   ├── AWS-WP-WooCommerce.yaml     # Główny szablon audytowanego systemu TechFix
-│   └── samples/                    # Przykładowe pliki z celowo wprowadzonymi błędami (do nauki)
-│       ├── p1.yaml                 # Podatność: publiczny S3 i brak szyfrowania RDS
-│       ├── p2.yaml                 # Podatność: otwarty port SSH (0.0.0.0/0) i brak szyfrowania EBS
-│       ├── p3.yaml                 # Podatność: twardo zapisane hasła w konfiguracji bazy danych
-│       └── p4.yaml                 # Podatność: brak VPC Flow Logs i błędy w politykach IAM
+│   ├── AWS-WP-WooCommerce_solved.yaml # Poprawiona, bezpieczna wersja szablonu głównego
+│   └── samples/                    # Przykładowe pliki do nauki (podatne vs zabezpieczone)
+│       ├── p1.yaml / p1_solved.yaml # S3 Public Access & RDS Encryption
+│       ├── p2.yaml / p2_solved.yaml # SSH Open Port & EBS Encryption
+│       ├── p3.yaml / p3_solved.yaml # Hardcoded Passwords & DB Config
+│       └── p4.yaml / p4_solved.yaml # VPC Flow Logs & IAM Policies
 ├── LICENSE.md                      # Licencja projektu (MIT)
-├── README.md                       # Główny plik dokumentacji z instrukcją audytu i wdrożenia
-├── reports/                        # Wyniki audytu bezpieczeństwa wygenerowane w ramach labów
-│   ├── raport_p1..p4.html/pdf      # Raporty techniczne dla plików przykładowych
+├── README.md                       # Główny plik dokumentacji
+├── reports/                        # Wyniki audytu bezpieczeństwa (HTML i PDF)
+│   ├── raport_p1...p4.html/pdf     # Raporty techniczne dla poszczególnych podatności
 │   ├── report_WooCommerce.html     # Szczegółowy raport HTML dla infrastruktury TechFix
-│   └── report_WooCommerce.pdf      # Finalny raport audytu w formacie PDF (do wysłania)
+│   └── report_WooCommerce.pdf      # Finalny raport audytu w formacie PDF
 └── src/                            # Dane źródłowe i zasoby aplikacji WordPress
-    ├── assets/                     # Grafiki produktów, favicon oraz baza produktów (CSV)
-    └── backups/                    # Kopie zapasowe
-        └── AWS-WP-TechFix.wpress.zip # Skompresowany obraz witryny gotowy do importu w WordPressie
+    ├── assets/                     # Grafiki produktów i baza produktów (CSV)
+    │   ├── favicon-techfix.png
+    │   ├── TechFix_Products.csv
+    │   └── techfix-*.png           # Zdjęcia konkretnych usług i produktów
+    └── backups/                    # Kopie zapasowe witryny
+        └── AWS-WP-TechFix.wpress.zip # Skompresowany obraz witryny do importu
 ```
 
 ## Kluczowe cechy
